@@ -47,5 +47,26 @@ dependencies {
 
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    // Coroutines (asenkron işlemler)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+
+// Retrofit (ağ işlemleri)
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.11.0")
+
+// Moshi (JSON parsing)
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
+
+// OkHttp + Logging + Chucker (istekleri gözlemlemek için)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
+    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.0.0")
+
+// Coil (görsel yükleme)
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.4")
+
 }
 

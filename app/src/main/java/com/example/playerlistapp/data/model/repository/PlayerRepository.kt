@@ -1,16 +1,30 @@
 package com.example.playerlistapp.data.model.repository
 
-import com.example.playerlistapp.R
 import com.example.playerlistapp.data.model.Player
+import com.example.playerlistapp.data.remote.RandomUserApi
+import com.example.playerlistapp.data.remote.mapper.toPlayer
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 
-class PlayerRepository {
-    fun getPlayers(): List<Player> {
-        return listOf(
-            Player("Lionel Messi", "10", "Forward", R.drawable.messi),
-            Player("Cristiano Ronaldo", "7", "Forward", R.drawable.ronaldo),
-            Player("Kevin De Bruyne", "17", "Midfielder", R.drawable.debruyne),
-            Player("Manuel Neuer", "1", "Goalkeeper", R.drawable.neuer),
-            Player("Virgil van Dijk", "4", "Defender", R.drawable.vandijk)
-        )
+object PlayerRepository {
+
+    private val api: RandomUserApi by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://randomuser.me/api/")
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+            .create(RandomUserApi::class.java)
+    }
+
+    suspend fun getPlayers(): List<Player> = withContext(Dispatchers.IO) {
+        try {
+            val response = api.getPlayers()
+            response.results.map { it.toPlayer() }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyList()
+        }
     }
 }

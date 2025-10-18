@@ -79,7 +79,7 @@ fun MainScreen(navController: NavHostController, viewModel: PlayerViewModel) {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("list") {
-                ListScreen(viewModel.players, navController)
+                ListScreen(viewModel = viewModel)
             }
             composable("profile") {
                 ProfileScreen()
