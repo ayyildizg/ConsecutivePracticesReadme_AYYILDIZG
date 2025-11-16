@@ -1,6 +1,5 @@
 package com.example.app.presentation.profile
 
-import androidx.compose.ui.res.painterResource
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
@@ -14,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource      // ✅ DOĞRU import (bunu kullan!)
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.app.R
@@ -35,15 +35,16 @@ fun ProfileScreen(
 
         Spacer(Modifier.height(20.dp))
 
-        // ✅ Avatar
+        // 🟣 Avatar painter
         val imagePainter =
             if (!profile.avatarUri.isNullOrEmpty())
                 rememberAsyncImagePainter(profile.avatarUri)
-            else androidx.compose.ui.res.painterResource(id = R.drawable.ic_profile_placeholder)
+            else painterResource(R.drawable.ic_profile_placeholder)   // ✅ DOĞRU ÇÖZÜM
 
+        // 🟣 Avatar Image
         Image(
-            painter = painterResource(R.drawable.ic_profile_placeholder),
-            contentDescription = "Default Avatar",
+            painter = imagePainter,
+            contentDescription = "Avatar",
             modifier = Modifier
                 .size(120.dp)
                 .clip(CircleShape)
@@ -52,18 +53,16 @@ fun ProfileScreen(
 
         Spacer(Modifier.height(24.dp))
 
-        // ✅ Texts (Bilgiler)
         Text("Ad: ${profile.name}", style = MaterialTheme.typography.bodyLarge)
         Text("Pozisyon: ${profile.title}", style = MaterialTheme.typography.bodyLarge)
         Text("CV Link: ${profile.resumeUrl}", style = MaterialTheme.typography.bodyMedium)
 
         Spacer(Modifier.height(24.dp))
 
-        // ✅ Rezume açma butonu
         Button(
             onClick = {
-                profile.resumeUrl?.takeIf { it.isNotBlank() }?.let {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                if (profile.resumeUrl.isNotBlank()) {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(profile.resumeUrl))
                     context.startActivity(intent)
                 }
             },
@@ -74,7 +73,6 @@ fun ProfileScreen(
 
         Spacer(Modifier.height(16.dp))
 
-        // ✅ Düzenleme butonu
         Button(
             onClick = onEditClick,
             modifier = Modifier.fillMaxWidth()
