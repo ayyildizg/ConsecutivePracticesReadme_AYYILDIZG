@@ -15,10 +15,24 @@ import com.example.app.presentation.profile.EditProfileScreen
 import com.example.app.presentation.profile.ProfileScreen
 import com.example.app.presentation.profile.ProfileViewModel
 import com.example.app.ui.theme.AppTheme
+import androidx.activity.result.contract.ActivityResultContracts
+import android.os.Build
+
 
 class MainActivity : ComponentActivity() {
+
+    private val requestNotificationPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            // granted: true / false
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestNotificationPermission.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+        }
+
         enableEdgeToEdge()
         setContent { AppNavigation() }
     }

@@ -17,6 +17,7 @@ class ProfileDataStore(private val context: Context) {
         val TITLE = stringPreferencesKey("title")
         val AVATAR_URI = stringPreferencesKey("avatar_uri")
         val RESUME_URL = stringPreferencesKey("resume_url")
+        val FAVORITE_PAIR_TIME = stringPreferencesKey("favorite_pair_time")
     }
 
     suspend fun saveProfile(profile: Profile) {
@@ -25,6 +26,7 @@ class ProfileDataStore(private val context: Context) {
             prefs[Keys.TITLE] = profile.title
             prefs[Keys.AVATAR_URI] = profile.avatarUri ?: ""
             prefs[Keys.RESUME_URL] = profile.resumeUrl
+            prefs[Keys.FAVORITE_PAIR_TIME] = profile.favoritePairTime
         }
     }
 
@@ -34,7 +36,8 @@ class ProfileDataStore(private val context: Context) {
                 name = prefs[Keys.NAME] ?: "",
                 title = prefs[Keys.TITLE] ?: "",
                 avatarUri = prefs[Keys.AVATAR_URI],
-                resumeUrl = prefs[Keys.RESUME_URL] ?: ""
+                resumeUrl = prefs[Keys.RESUME_URL] ?: "",
+                favoritePairTime = prefs[Keys.FAVORITE_PAIR_TIME] ?: ""
             )
         }
 }

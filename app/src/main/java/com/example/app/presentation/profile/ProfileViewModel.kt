@@ -34,5 +34,11 @@ class ProfileViewModel(
         val updated = _profile.value.copy(avatarUri = uri)
         updateProfile(updated)
     }
+
+    fun updateFavoriteTime(time: String) {
+        val updated = _profile.value.copy(favoritePairTime = time)
+        updateProfile(updated)
+    }
 }
+
 
